@@ -1,888 +1,700 @@
-// flow-typed signature: 0199525b667f385f2e61dbeae3215f21
-// flow-typed version: b43dff3e0e/reselect_v3.x.x/flow_>=v0.28.x
-
+// derived from the official typescript definitions found on the reselect repository
+// https://github.com/reactjs/reselect/blob/master/src/index.d.ts
 declare module "reselect" {
-  declare type Selector<-TState, TProps, TResult> = {
-    (state: TState, props: TProps, ...rest: any[]): TResult
+  declare type Selector<S, P, R> = (state: S, props: P, ...args: any[]) => R;
+
+  declare type OutputSelector<S, P, R, C> = Selector<S, P, R> & {
+    resultFunc: C,
+    recomputations: () => number,
+    resetRecomputations: () => number
   };
 
   declare type SelectorCreator = {
-    <TState, TProps, TResult, T1>(
-      selector1: Selector<TState, TProps, T1>,
-      resultFunc: (arg1: T1) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1>(
-      selectors: [Selector<TState, TProps, T1>],
-      resultFunc: (arg1: T1) => TResult
-    ): Selector<TState, TProps, TResult>,
+    /* one selector */
+    <S, P, R1, T>(
+      selector: Selector<S, P, R1>,
+      combiner: (res: R1) => T
+    ): OutputSelector<S, P, T, (res: R1) => T>,
 
-    <TState, TProps, TResult, T1, T2>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      resultFunc: (arg1: T1, arg2: T2) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2>(
-      selectors: [Selector<TState, TProps, T1>, Selector<TState, TProps, T2>],
-      resultFunc: (arg1: T1, arg2: T2) => TResult
-    ): Selector<TState, TProps, TResult>,
+    /* two selectors */
+    <S, P, R1, R2, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      combiner: (res1: R1, res2: R2) => T
+    ): OutputSelector<S, P, T, (res1: R1, res2: R2) => T>,
 
-    <TState, TProps, TResult, T1, T2, T3>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      resultFunc: (arg1: T1, arg2: T2, arg3: T3) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3>(
+    /* three selectors */
+    <S, P, R1, R2, R3, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      combiner: (res1: R1, res2: R2, res3: R3) => T
+    ): OutputSelector<S, P, T, (res1: R1, res2: R2, res3: R3) => T>,
+
+    /* four selectors */
+    <S, P, R1, R2, R3, R4, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      combiner: (res1: R1, res2: R2, res3: R3, res4: R4) => T
+    ): OutputSelector<S, P, T, (res1: R1, res2: R2, res3: R3, res4: R4) => T>,
+
+    /* five selectors */
+    <S, P, R1, R2, R3, R4, R5, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      combiner: (res1: R1, res2: R2, res3: R3, res4: R4, res5: R5) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (res1: R1, res2: R2, res3: R3, res4: R4, res5: R5) => T
+    >,
+
+    /* six selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      selector6: Selector<S, P, R6>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (res1: R1, res2: R2, res3: R3, res4: R4, res5: R5, res6: R6) => T
+    >,
+
+    /* seven selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      selector6: Selector<S, P, R6>,
+      selector7: Selector<S, P, R7>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7
+      ) => T
+    >,
+
+    /* eight selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      selector6: Selector<S, P, R6>,
+      selector7: Selector<S, P, R7>,
+      selector8: Selector<S, P, R8>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8
+      ) => T
+    >,
+
+    /* nine selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      selector6: Selector<S, P, R6>,
+      selector7: Selector<S, P, R7>,
+      selector8: Selector<S, P, R8>,
+      selector9: Selector<S, P, R9>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9
+      ) => T
+    >,
+
+    /* ten selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      selector6: Selector<S, P, R6>,
+      selector7: Selector<S, P, R7>,
+      selector8: Selector<S, P, R8>,
+      selector9: Selector<S, P, R9>,
+      selector10: Selector<S, P, R10>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10
+      ) => T
+    >,
+
+    /* eleven selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      selector6: Selector<S, P, R6>,
+      selector7: Selector<S, P, R7>,
+      selector8: Selector<S, P, R8>,
+      selector9: Selector<S, P, R9>,
+      selector10: Selector<S, P, R10>,
+      selector11: Selector<S, P, R11>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11
+      ) => T
+    >,
+
+    /* twelve selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, T>(
+      selector1: Selector<S, P, R1>,
+      selector2: Selector<S, P, R2>,
+      selector3: Selector<S, P, R3>,
+      selector4: Selector<S, P, R4>,
+      selector5: Selector<S, P, R5>,
+      selector6: Selector<S, P, R6>,
+      selector7: Selector<S, P, R7>,
+      selector8: Selector<S, P, R8>,
+      selector9: Selector<S, P, R9>,
+      selector10: Selector<S, P, R10>,
+      selector11: Selector<S, P, R11>,
+      selector12: Selector<S, P, R12>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11,
+        res12: R12
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11,
+        res12: R12
+      ) => T
+    >,
+
+    /* array argument */
+    /* one selector */
+    <S, P, R1, T>(
+      selectors: [Selector<S, P, R1>],
+      combiner: (res: R1) => T
+    ): OutputSelector<S, P, T, (res: R1) => T>,
+
+    /* two selectors */
+    <S, P, R1, R2, T>(
+      selectors: [Selector<S, P, R1>, Selector<S, P, R2>],
+      combiner: (res1: R1, res2: R2) => T
+    ): OutputSelector<S, P, T, (res1: R1, res2: R2) => T>,
+
+    /* three selectors */
+    <S, P, R1, R2, R3, T>(
+      selectors: [Selector<S, P, R1>, Selector<S, P, R2>, Selector<S, P, R3>],
+      combiner: (res1: R1, res2: R2, res3: R3) => T
+    ): OutputSelector<S, P, T, (res1: R1, res2: R2, res3: R3) => T>,
+
+    /* four selectors */
+    <S, P, R1, R2, R3, R4, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>
       ],
-      resultFunc: (arg1: T1, arg2: T2, arg3: T3) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (res1: R1, res2: R2, res3: R3, res4: R4) => T
+    ): OutputSelector<S, P, T, (res1: R1, res2: R2, res3: R3, res4: R4) => T>,
 
-    <TState, TProps, TResult, T1, T2, T3, T4>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      resultFunc: (arg1: T1, arg2: T2, arg3: T3, arg4: T4) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4>(
+    /* five selectors */
+    <S, P, R1, R2, R3, R4, R5, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>
       ],
-      resultFunc: (arg1: T1, arg2: T2, arg3: T3, arg4: T4) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (res1: R1, res2: R2, res3: R3, res4: R4, res5: R5) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (res1: R1, res2: R2, res3: R3, res4: R4, res5: R5) => T
+    >,
 
-    <TState, TProps, TResult, T1, T2, T3, T4, T5>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      resultFunc: (arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4, T5>(
+    /* six selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>,
+        Selector<S, P, R6>
       ],
-      resultFunc: (arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (res1: R1, res2: R2, res3: R3, res4: R4, res5: R5, res6: R6) => T
+    >,
 
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6>(
+    /* seven selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>,
+        Selector<S, P, R6>,
+        Selector<S, P, R7>
       ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7
+      ) => T
+    >,
 
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7>(
+    /* eight selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>,
+        Selector<S, P, R6>,
+        Selector<S, P, R7>,
+        Selector<S, P, R8>
       ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8
+      ) => T
+    >,
 
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8>(
+    /* nine selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>,
+        Selector<S, P, R6>,
+        Selector<S, P, R7>,
+        Selector<S, P, R8>,
+        Selector<S, P, R9>
       ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9
+      ) => T
+    >,
 
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8, T9>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8, T9>(
+    /* ten selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>,
+        Selector<S, P, R6>,
+        Selector<S, P, R7>,
+        Selector<S, P, R8>,
+        Selector<S, P, R9>,
+        Selector<S, P, R10>
       ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10
+      ) => T
+    >,
 
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      selector10: Selector<TState, TProps, T10>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
+    /* eleven selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>,
-        Selector<TState, TProps, T10>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>,
+        Selector<S, P, R6>,
+        Selector<S, P, R7>,
+        Selector<S, P, R8>,
+        Selector<S, P, R9>,
+        Selector<S, P, R10>,
+        Selector<S, P, R11>
       ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11
+      ) => T
+    >,
 
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      selector10: Selector<TState, TProps, T10>,
-      selector11: Selector<TState, TProps, T11>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <TState, TProps, TResult, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(
+    /* twelve selectors */
+    <S, P, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, T>(
       selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>,
-        Selector<TState, TProps, T10>,
-        Selector<TState, TProps, T11>
+        Selector<S, P, R1>,
+        Selector<S, P, R2>,
+        Selector<S, P, R3>,
+        Selector<S, P, R4>,
+        Selector<S, P, R5>,
+        Selector<S, P, R6>,
+        Selector<S, P, R7>,
+        Selector<S, P, R8>,
+        Selector<S, P, R9>,
+        Selector<S, P, R10>,
+        Selector<S, P, R11>,
+        Selector<S, P, R12>
       ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12
-    >(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      selector10: Selector<TState, TProps, T10>,
-      selector11: Selector<TState, TProps, T11>,
-      selector12: Selector<TState, TProps, T12>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12
-    >(
-      selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>,
-        Selector<TState, TProps, T10>,
-        Selector<TState, TProps, T11>,
-        Selector<TState, TProps, T12>
-      ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13
-    >(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      selector10: Selector<TState, TProps, T10>,
-      selector11: Selector<TState, TProps, T11>,
-      selector12: Selector<TState, TProps, T12>,
-      selector13: Selector<TState, TProps, T13>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13
-    >(
-      selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>,
-        Selector<TState, TProps, T10>,
-        Selector<TState, TProps, T11>,
-        Selector<TState, TProps, T12>,
-        Selector<TState, TProps, T13>
-      ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14
-    >(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      selector10: Selector<TState, TProps, T10>,
-      selector11: Selector<TState, TProps, T11>,
-      selector12: Selector<TState, TProps, T12>,
-      selector13: Selector<TState, TProps, T13>,
-      selector14: Selector<TState, TProps, T14>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13,
-        arg14: T14
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14
-    >(
-      selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>,
-        Selector<TState, TProps, T10>,
-        Selector<TState, TProps, T11>,
-        Selector<TState, TProps, T12>,
-        Selector<TState, TProps, T13>,
-        Selector<TState, TProps, T14>
-      ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13,
-        arg14: T14
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15
-    >(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      selector10: Selector<TState, TProps, T10>,
-      selector11: Selector<TState, TProps, T11>,
-      selector12: Selector<TState, TProps, T12>,
-      selector13: Selector<TState, TProps, T13>,
-      selector14: Selector<TState, TProps, T14>,
-      selector15: Selector<TState, TProps, T15>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13,
-        arg14: T14,
-        arg15: T15
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15
-    >(
-      selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>,
-        Selector<TState, TProps, T10>,
-        Selector<TState, TProps, T11>,
-        Selector<TState, TProps, T12>,
-        Selector<TState, TProps, T13>,
-        Selector<TState, TProps, T14>,
-        Selector<TState, TProps, T15>
-      ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13,
-        arg14: T14,
-        arg15: T15
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16
-    >(
-      selector1: Selector<TState, TProps, T1>,
-      selector2: Selector<TState, TProps, T2>,
-      selector3: Selector<TState, TProps, T3>,
-      selector4: Selector<TState, TProps, T4>,
-      selector5: Selector<TState, TProps, T5>,
-      selector6: Selector<TState, TProps, T6>,
-      selector7: Selector<TState, TProps, T7>,
-      selector8: Selector<TState, TProps, T8>,
-      selector9: Selector<TState, TProps, T9>,
-      selector10: Selector<TState, TProps, T10>,
-      selector11: Selector<TState, TProps, T11>,
-      selector12: Selector<TState, TProps, T12>,
-      selector13: Selector<TState, TProps, T13>,
-      selector14: Selector<TState, TProps, T14>,
-      selector15: Selector<TState, TProps, T15>,
-      selector16: Selector<TState, TProps, T16>,
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13,
-        arg14: T14,
-        arg15: T15,
-        arg16: T16
-      ) => TResult
-    ): Selector<TState, TProps, TResult>,
-    <
-      TState,
-      TProps,
-      TResult,
-      T1,
-      T2,
-      T3,
-      T4,
-      T5,
-      T6,
-      T7,
-      T8,
-      T9,
-      T10,
-      T11,
-      T12,
-      T13,
-      T14,
-      T15,
-      T16
-    >(
-      selectors: [
-        Selector<TState, TProps, T1>,
-        Selector<TState, TProps, T2>,
-        Selector<TState, TProps, T3>,
-        Selector<TState, TProps, T4>,
-        Selector<TState, TProps, T5>,
-        Selector<TState, TProps, T6>,
-        Selector<TState, TProps, T7>,
-        Selector<TState, TProps, T8>,
-        Selector<TState, TProps, T9>,
-        Selector<TState, TProps, T10>,
-        Selector<TState, TProps, T11>,
-        Selector<TState, TProps, T12>,
-        Selector<TState, TProps, T13>,
-        Selector<TState, TProps, T14>,
-        Selector<TState, TProps, T15>,
-        Selector<TState, TProps, T16>
-      ],
-      resultFunc: (
-        arg1: T1,
-        arg2: T2,
-        arg3: T3,
-        arg4: T4,
-        arg5: T5,
-        arg6: T6,
-        arg7: T7,
-        arg8: T8,
-        arg9: T9,
-        arg10: T10,
-        arg11: T11,
-        arg12: T12,
-        arg13: T13,
-        arg14: T14,
-        arg15: T15,
-        arg16: T16
-      ) => TResult
-    ): Selector<TState, TProps, TResult>
+      combiner: (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11,
+        res12: R12
+      ) => T
+    ): OutputSelector<
+      S,
+      P,
+      T,
+      (
+        res1: R1,
+        res2: R2,
+        res3: R3,
+        res4: R4,
+        res5: R5,
+        res6: R6,
+        res7: R7,
+        res8: R8,
+        res9: R9,
+        res10: R10,
+        res11: R11,
+        res12: R12
+      ) => T
+    >
+  };
+  declare type StructuredSelectorCreator = {
+    <S, P, T>(
+      selectors: { [$Keys<T>]: Selector<S, P, *> },
+      selectorCreator?: SelectorCreator
+    ): Selector<S, P, T>
   };
 
-  declare type Reselect = {
+  declare type CreateSelectorCreator = {
+    (memoize: <F: Function>(func: F) => F): SelectorCreator,
+
+    <O1>(
+      memoize: <F: Function>(func: F, option1: O1) => F,
+      option1: O1
+    ): SelectorCreator,
+
+    <O1, O2>(
+      memoize: <F: Function>(func: F, option1: O1, option2: O2) => F,
+      option1: O1,
+      option2: O2
+    ): SelectorCreator,
+
+    <O1, O2, O3>(
+      memoize: <F: Function>(
+        func: F,
+        option1: O1,
+        option2: O2,
+        option3: O3,
+        ...rest: any[]
+      ) => F,
+      option1: O1,
+      option2: O2,
+      option3: O3,
+      ...rest: any[]
+    ): SelectorCreator
+  };
+
+  declare class Reselect {
     createSelector: SelectorCreator,
 
-    defaultMemoize: <TFunc: Function>(
-      func: TFunc,
-      equalityCheck?: (a: any, b: any) => boolean
-    ) => TFunc,
+    defaultMemoize<F: Function>(
+      func: F,
+      equalityCheck?: <T>(a: T, b: T, index: number) => boolean
+    ): F,
 
-    createSelectorCreator: (
-      memoize: Function,
-      ...memoizeOptions: any[]
-    ) => SelectorCreator,
+    createSelectorCreator: CreateSelectorCreator,
 
-    createStructuredSelector: <TState, TProps>(
-      inputSelectors: {
-        [k: string | number]: Selector<TState, TProps, any>
-      },
-      selectorCreator?: SelectorCreator
-    ) => Selector<TState, TProps, any>
-  };
-
+    createStructuredSelector: StructuredSelectorCreator
+  }
   declare var exports: Reselect;
 }
